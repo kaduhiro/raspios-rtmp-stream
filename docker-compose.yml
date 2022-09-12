@@ -1,0 +1,36 @@
+version: '3.4'
+
+x-var: &NETWORK
+  networks:
+    raspios-rtmp-stream:
+
+services:
+  nginx:
+    build: ./nginx
+    image: kaduhiro/raspios-rtmp-nginx:1.23.1
+    container_name: raspios-rtmp-nginx
+    hostname: raspios-rtmp-nginx
+    <<: *NETWORK
+    ports:
+      - 80:80
+      - 1935:1935
+
+  ffmpeg:
+    build: ./ffmpeg
+    image: kaduhiro/raspios-rtmp-ffmpeg:5.0.1-r1
+    container_name: raspios-rtmp-ffmpeg
+    hostname: raspios-rtmp-ffmpeg
+    devices:
+      - /dev/video0
+      - /dev/snd
+    <<: *NETWORK
+    command: >
+      -f alsa -i plughw:1,0 \
+      -f v4l2 -i /dev/video0 \
+      -c:a aac \
+      -c:v h264 -b:v 768k \
+      -preset ultrafast -tune zerolatency \
+      -f flv rtmp://raspios-rtmp-nginx/live/stream
+
+networks:
+  raspios-rtmp-stream:
