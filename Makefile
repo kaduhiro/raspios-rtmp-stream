@@ -15,7 +15,7 @@ exec/%: # run a command in a running container
 down/%: # stop and remove containers
 	docker-compose rm -fsv $*
 
-.PHONY: network build build/% run run/% up up/% exec exec/% down down/%
+.PHONY: build/% run/% up/% exec/% down/%
 
 help: # list available targets and some
 	@echo "usage: make <\033[1mtarget\033[0m>\n"
