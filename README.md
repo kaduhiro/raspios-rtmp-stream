@@ -17,11 +17,18 @@
 ```
 usage: make <target>
 
-build/% build or rebuild a image
-run/%   run a one-off command on a new container
-up/%    create and start containers
-exec/%  run a command in a running container
-down/%  stop and remove containers
-help    list available targets and some
-clean   remove cache files from the working directory
+SERVICES:
+    nginx
+    ffmpeg
+
+TARGETS:
+    build/%     build or rebuild a image
+    run/%       run a one-off command on a container
+    exec/%      run a command in a running container
+    up          create and start containers, networks, and volumes
+    up/%        create and start a container
+    down        stop and remove containers, networks, images, and volumes
+    down/%      stop and remove a container
+    help        list available targets and some
+    clean       remove cache files from the working directory
 ```
